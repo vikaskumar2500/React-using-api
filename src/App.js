@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import Form from "./components/Form/Form";
 
 function App() {
   const [moviesData, setMoviesData] = useState([]);
@@ -11,7 +12,7 @@ function App() {
     setIsLoading(true);
 
     const response = await fetch("https://swapi.dev/api/films/");
-    // if (!response.ok) throw Error("Something went wrong ...Retrying");
+    if (!response.ok) throw Error("Something went wrong ...Retrying");
 
     const data = await response.json();
     const mappedMoviesData = data.results.map((data) => ({
@@ -30,6 +31,9 @@ function App() {
 
   return (
     <React.Fragment>
+      <section>
+        <Form/>
+      </section>
       <section>
         <button onClick={fetchApiMoviesHandler}>Fetch Movies</button>
       </section>
