@@ -18,3 +18,11 @@
   margin: 0;
   font-size: 1rem;
 }
+
+.movie button {
+  background-color: aliceblue;
+  color: black;
+  font-weight: 700;
+}
+
+

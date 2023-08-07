@@ -1,46 +1,35 @@
-import React, { useState, useEffect, useCallback } from "react";
-
+import React, { useEffect, useContext, useCallback } from "react";
+import MovieContext from "./store/MovieContext";
 import MoviesList from "./components/MoviesList";
 import "./App.css";
 import Form from "./components/Form/Form";
 
 function App() {
-  const [moviesData, setMoviesData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const movieCtx = useContext(MovieContext);
 
-  const fetchApiMoviesHandler = useCallback(async() => {
-    setIsLoading(true);
+  const addMovieButtonHandler = useCallback(() => {
+    movieCtx.fetchApiMovies();
+  }, [movieCtx]);
 
-    const response = await fetch("https://swapi.dev/api/films/");
-    if (!response.ok) throw Error("Something went wrong ...Retrying");
-
-    const data = await response.json();
-    const mappedMoviesData = data.results.map((data) => ({
-      id: data.episode_id,
-      title: data.title,
-      releaseDate: data.release_date,
-      openingText: data.opening_crawl,
-    }));
-    setMoviesData(mappedMoviesData);
-    setIsLoading(false);
-  }, [setMoviesData]);
-
-  useEffect(()=> {
-    fetchApiMoviesHandler();
-  }, [fetchApiMoviesHandler])
+  useEffect(() => {
+    movieCtx.fetchApiMovies();
+  }, []);
 
   return (
     <React.Fragment>
       <section>
-        <Form/>
+        <Form onAddMovie={addMovieButtonHandler} />
       </section>
       <section>
-        <button onClick={fetchApiMoviesHandler}>Fetch Movies</button>
+        <button onClick={movieCtx.fetchApiMovies}>Fetch Movies</button>
       </section>
       <section>
-        {!isLoading && <MoviesList movies={moviesData} />}
-        {!isLoading && moviesData.length === 0 && <p>Not found moviesData</p>}
-        {isLoading && <p>Loading...</p>}
+        {!movieCtx.isLoading && <MoviesList />}
+        {!movieCtx.isLoading && movieCtx.movies.length === 0 && (
+          <p>Not found moviesData</p>
+        )}
+        {!movieCtx.isLoading && movieCtx.error && <p>{movieCtx.error}</p>}
+        {movieCtx.isLoading && <p>Loading...</p>}
       </section>
     </React.Fragment>
   );

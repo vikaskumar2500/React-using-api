@@ -13,12 +13,29 @@
   gap: 0.5rem;
 }
 
-.input>input,textarea {
-  padding: 0.3rem;
+.input > input,
+textarea {
+  border: 1px solid rgb(209, 196, 196);
+  padding: 0.4rem;
   border-radius: 12px;
   border: 1px solid rgb(212, 199, 199);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 14px;
 }
 
-.input>label {
+.input > input:hover {
+  background-color: rgb(247, 197, 197);
+}
+
+.input input, textarea:focus {
+  outline: none;
+}
+.input > label {
   font-weight: 600;
+}
+
+.add-movie {
+  width: 10rem;
+  text-align: center;
+  margin: 0 auto;
 }
